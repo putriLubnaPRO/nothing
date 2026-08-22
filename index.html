@@ -2,390 +2,205 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KAI Multi-Sim 2D - Lobby & Autentikasi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby - Simulator Kereta Api Indonesia</title>
     <style>
-        :root {
-            --kai-orange: #F37021;
-            --kai-blue: #002D62;
-            --kai-dark: #121A24;
-            --kai-light: #F4F6F9;
-            --kai-gray: #34495E;
-            --kai-green: #2ECC71;
-            --kai-red: #E74C3C;
-        }
-
         * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
-            background: linear-gradient(135deg, rgba(0, 45, 98, 0.92), rgba(18, 26, 36, 0.95)),
-                        url('https://images.unsplash.com/photo-1541427468627-a89a96e5ca1d?q=80&w=1200') center/cover no-repeat;
-            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px 10px;
-            color: #333;
+            min-height: 100vh;
         }
-
         .lobby-card {
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(10px);
-            border-radius: 18px;
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 30px;
             width: 100%;
-            max-width: 520px;
-            padding: 28px 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border-top: 6px solid var(--kai-orange);
-            position: relative;
+            max-width: 450px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
-
-        .header {
+        h1 {
             text-align: center;
-            margin-bottom: 22px;
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #38bdf8;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
         }
-
-        .header h1 {
-            color: var(--kai-blue);
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .badge-status {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-top: 6px;
-        }
-
-        .badge-user {
-            background: #E2E8F0;
-            color: #475569;
-        }
-
-        .badge-admin {
-            background: #FEF3C7;
-            color: #92400E;
-            border: 1px solid #F59E0B;
-        }
-
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
-
         label {
             display: block;
             font-size: 13px;
-            font-weight: 700;
-            color: var(--kai-dark);
             margin-bottom: 6px;
+            color: #94a3b8;
+            font-weight: 600;
         }
-
-        input[type="text"], input[type="password"], select {
+        input, select {
             width: 100%;
-            padding: 12px 14px;
-            border: 2px solid #E2E8F0;
-            border-radius: 10px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #fff;
             font-size: 14px;
-            color: #1E293B;
-            background-color: #F8FAFC;
-            transition: all 0.25s ease;
             outline: none;
         }
-
         input:focus, select:focus {
-            border-color: var(--kai-orange);
-            background-color: #FFF;
-            box-shadow: 0 0 0 3px rgba(243, 112, 33, 0.15);
+            border-color: #38bdf8;
         }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        /* Admin Collapsible Section */
-        .admin-section {
-            margin-top: 20px;
-            border-top: 1px dashed #CBD5E1;
-            padding-top: 16px;
-        }
-
-        .btn-toggle-admin {
-            background: none;
-            border: none;
-            color: var(--kai-blue);
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 0;
-            margin-bottom: 10px;
-        }
-
-        .btn-toggle-admin:hover {
-            color: var(--kai-orange);
-        }
-
-        .admin-box {
-            display: none;
-            background: #F1F5F9;
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid #CBD5E1;
-            margin-bottom: 15px;
-        }
-
-        .admin-box.active {
-            display: block;
-        }
-
-        .btn-verify-admin {
-            background: var(--kai-blue);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 12px;
-            cursor: pointer;
+        .btn {
             width: 100%;
-            margin-top: 8px;
-            transition: background 0.2s;
-        }
-
-        .btn-verify-admin:hover {
-            background: #001A3A;
-        }
-
-        .btn-play {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--kai-orange), #E05A0E);
-            color: white;
+            padding: 12px;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
+            border-radius: 6px;
+            background: #0284c7;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(243, 112, 33, 0.35);
-            transition: all 0.3s ease;
+            transition: 0.2s;
             margin-top: 10px;
         }
-
-        .btn-play:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(243, 112, 33, 0.45);
+        .btn:hover {
+            background: #0369a1;
         }
-
-        .alert-msg {
-            padding: 8px 12px;
-            border-radius: 6px;
+        .admin-toggle {
+            background: transparent;
+            border: 1px dashed #64748b;
+            color: #cbd5e1;
             font-size: 12px;
-            font-weight: 600;
-            margin-top: 8px;
-            display: none;
+            margin-top: 15px;
         }
-
-        .alert-success { background: #DEF7EC; color: #03543F; border: 1px solid #84E1BC; }
-        .alert-error { background: #FDE8E8; color: #9B1C1C; border: 1px solid #F8B4B4; }
-
-        @media (max-width: 480px) {
-            .grid-2 { grid-template-columns: 1fr; }
-            .lobby-card { padding: 20px 16px; }
+        .admin-box {
+            display: none;
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ef4444;
+            margin-top: 10px;
+        }
+        .badge-admin {
+            display: none;
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 5px;
         }
     </style>
 </head>
 <body>
 
 <div class="lobby-card">
-    <div class="header">
-        <h1>KAI MULTI-SIM 2D</h1>
-        <p>Simulator Kereta Api Indonesia Real-Time Multiplayer</p>
-        <span id="roleBadge" class="badge-status badge-user">Hak Akses: Pemain Biasa</span>
-    </div>
+    <h1>SIMULATOR KAI 2D <span id="adminBadge" class="badge-admin">ADMIN</span></h1>
 
-    <!-- Nama Player -->
     <div class="form-group">
-        <label for="playerName">Nama Masinis / Player:</label>
-        <input type="text" id="playerName" placeholder="Contoh: Masinis_MasEko" maxlength="20">
+        <label for="playerName">Nama Masinis / Pemain:</label>
+        <input type="text" id="playerName" placeholder="Masukkan nama..." value="Masinis 1">
     </div>
 
-    <!-- Kustomisasi Kereta -->
-    <div class="grid-2">
-        <div class="form-group">
-            <label for="locomotive">Pilih Lokomotif:</label>
-            <select id="locomotive">
-                <option value="CC206">CC 206 (General Electric GE CM20EMP)</option>
-                <option value="CC201">CC 201 (GE U18C Classic)</option>
-                <option value="CC203">CC 203 (GE U20C Aerodinamis)</option>
-                <option value="BB301">BB 301 (Krupp Hydro-Diesel)</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="carriage">Rangkaian Gerbong:</label>
-            <select id="carriage">
-                <option value="K1">K1 Eksekutif (Stainless Steel)</option>
-                <option value="K2">K2 Bisnis (New Image)</option>
-                <option value="K3">K3 Ekonomi Premium</option>
-                <option value="Cargo">Gerbong Cargo / Petikemas</option>
-            </select>
-        </div>
+    <div class="form-group">
+        <label for="daopSelect">Wilayah (DAOP):</label>
+        <select id="daopSelect">
+            <option value="daop1">DAOP 1 Jakarta</option>
+            <option value="daop2">DAOP 2 Bandung</option>
+            <option value="daop6">DAOP 6 Yogyakarta</option>
+            <option value="daop8">DAOP 8 Surabaya</option>
+        </select>
     </div>
 
-    <!-- Rencana Rute Perjalanan -->
-    <div class="grid-2">
-        <div class="form-group">
-            <label for="stationStart">Stasiun Keberangkatan:</label>
-            <select id="stationStart"></select>
-        </div>
-        <div class="form-group">
-            <label for="stationEnd">Stasiun Tujuan:</label>
-            <select id="stationEnd"></select>
-        </div>
+    <div class="form-group">
+        <label for="locoSelect">Pilih Lokomotif / Rangkaian:</label>
+        <select id="locoSelect">
+            <option value="CC206">CC206 (Double Cab Modern)</option>
+            <option value="CC203">CC203 (Aerodinamis)</option>
+            <option value="CC201">CC201 (Hidung Kotak Classic)</option>
+            <option value="KRL">KRL Commuter Line (Khusus Daop 1)</option>
+        </select>
     </div>
 
-    <!-- Section Login Admin Eksklusif -->
-    <div class="admin-section">
-        <button type="button" class="btn-toggle-admin" onclick="toggleAdminBox()">
-            🔐 Login Akses Admin Server (Opsional)
-        </button>
+    <button type="button" class="btn admin-toggle" id="toggleAdminBtn">🔑 Login Akses Admin Server</button>
 
-        <div class="admin-box" id="adminBox">
-            <label for="adminPassword" style="font-size:12px;">Password Rahasia Pemilik Server:</label>
-            <input type="password" id="adminPassword" placeholder="Masukkan password admin...">
-            <button type="button" class="btn-verify-admin" onclick="verifyAdminPassword()">Verifikasi Hak Akses</button>
-            <div id="adminAlert" class="alert-msg"></div>
-        </div>
+    <div class="admin-box" id="adminBox">
+        <label for="adminPass" style="color: #fca5a5;">Password Admin:</label>
+        <input type="password" id="adminPass" placeholder="Masukkan password admin...">
+        <button type="button" class="btn" style="background:#dc2626; margin-top:8px; padding:8px;" id="loginAdminBtn">Verifikasi Admin</button>
     </div>
 
-    <!-- Tombol Mulai -->
-    <button class="btn-play" onclick="startGame()">MASUK KE SERVER MULTIPLAYER</button>
+    <button type="button" class="btn" id="startBtn">MASUK KE GAME 🚂</button>
 </div>
 
 <script>
-    // 16 Stasiun Ikonik Daop 1 - Daop 9 KAI
-    const stationsList = [
-        { id: 0, name: "Gambir (Daop 1 Jakarta)" },
-        { id: 1, name: "Pasar Senen (Daop 1 Jakarta)" },
-        { id: 2, name: "Bandung (Daop 2 Bandung)" },
-        { id: 3, name: "Kiaracondong (Daop 2 Bandung)" },
-        { id: 4, name: "Cirebon (Daop 3 Cirebon)" },
-        { id: 5, name: "Semarang Tawang (Daop 4 Semarang)" },
-        { id: 6, name: "Semarang Poncol (Daop 4 Semarang)" },
-        { id: 7, name: "Purwokerto (Daop 5 Purwokerto)" },
-        { id: 8, name: "Kroya (Daop 5 Purwokerto)" },
-        { id: 9, name: "Yogyakarta (Daop 6 Yogyakarta)" },
-        { id: 10, name: "Solo Balapan (Daop 6 Yogyakarta)" },
-        { id: 11, name: "Madiun (Daop 7 Madiun)" },
-        { id: 12, name: "Surabaya Gubeng (Daop 8 Surabaya)" },
-        { id: 13, name: "Surabaya Pasarturi (Daop 8 Surabaya)" },
-        { id: 14, name: "Malang (Daop 8 Surabaya)" },
-        { id: 15, name: "Jember (Daop 9 Jember)" }
-    ];
+    const daopSelect = document.getElementById('daopSelect');
+    const locoSelect = document.getElementById('locoSelect');
+    const toggleAdminBtn = document.getElementById('toggleAdminBtn');
+    const adminBox = document.getElementById('adminBox');
+    const loginAdminBtn = document.getElementById('loginAdminBtn');
+    const adminPass = document.getElementById('adminPass');
+    const adminBadge = document.getElementById('adminBadge');
+    const startBtn = document.getElementById('startBtn');
 
-    let isAdminVerified = false;
+    let isAdmin = false;
 
-    window.addEventListener('DOMContentLoaded', () => {
-        const startSelect = document.getElementById('stationStart');
-        const endSelect = document.getElementById('stationEnd');
-        const defaultNameInput = document.getElementById('playerName');
+    // Batasi KRL hanya untuk Daop 1 Jakarta
+    function checkKRLAvailability() {
+        const krlOption = locoSelect.querySelector('option[value="KRL"]');
+        if (daopSelect.value !== 'daop1') {
+            krlOption.disabled = true;
+            if (locoSelect.value === 'KRL') {
+                locoSelect.value = 'CC206';
+                alert('KRL Commuter Line hanya tersedia untuk wilayah operasional DAOP 1 Jakarta!');
+            }
+        } else {
+            krlOption.disabled = false;
+        }
+    }
 
-        const randomId = Math.floor(1000 + Math.random() * 9000);
-        defaultNameInput.value = `Masinis_${randomId}`;
+    daopSelect.addEventListener('change', checkKRLAvailability);
 
-        stationsList.forEach(s => {
-            const optStart = document.createElement('option');
-            optStart.value = s.name;
-            optStart.textContent = s.name;
-            startSelect.appendChild(optStart);
-
-            const optEnd = document.createElement('option');
-            optEnd.value = s.name;
-            optEnd.textContent = s.name;
-            endSelect.appendChild(optEnd);
-        });
-
-        startSelect.selectedIndex = 0;
-        endSelect.selectedIndex = 9;
+    toggleAdminBtn.addEventListener('click', () => {
+        adminBox.style.display = adminBox.style.display === 'block' ? 'none' : 'block';
     });
 
-    function toggleAdminBox() {
-        const box = document.getElementById('adminBox');
-        box.classList.toggle('active');
-    }
-
-    function verifyAdminPassword() {
-        const passwordInput = document.getElementById('adminPassword').value.trim();
-        const alertDiv = document.getElementById('adminAlert');
-        const badge = document.getElementById('roleBadge');
-
-        // Password Rahasia Admin
-        if (passwordInput === 'AdminKAI2026!') {
-            isAdminVerified = true;
-            alertDiv.className = 'alert-msg alert-success';
-            alertDiv.innerHTML = '✅ Password Benar! Anda memperoleh Hak Akses Admin Eksklusif.';
-            alertDiv.style.display = 'block';
-
-            badge.className = 'badge-status badge-admin';
-            badge.innerHTML = '⭐ Hak Akses: OWNER / ADMIN SERVER';
+    loginAdminBtn.addEventListener('click', () => {
+        // Password Admin default: admin123
+        if (adminPass.value === 'admin123') {
+            isAdmin = true;
+            adminBadge.style.display = 'inline-block';
+            alert('Akses Admin Berhasil Diberikan! Anda dapat mengontrol wesel global secara paksa.');
+            adminBox.style.display = 'none';
         } else {
-            isAdminVerified = false;
-            alertDiv.className = 'alert-msg alert-error';
-            alertDiv.innerHTML = '❌ Password Admin Salah! Akses ditolak.';
-            alertDiv.style.display = 'block';
-
-            badge.className = 'badge-status badge-user';
-            badge.innerHTML = 'Hak Akses: Pemain Biasa';
+            alert('Password Admin Salah!');
         }
-    }
+    });
 
-    function startGame() {
-        const name = document.getElementById('playerName').value.trim() || 'Masinis_Anonim';
-        const loco = document.getElementById('locomotive').value;
-        const carriage = document.getElementById('carriage').value;
-        const startStation = document.getElementById('stationStart').value;
-        const endStation = document.getElementById('stationEnd').value;
+    startBtn.addEventListener('click', () => {
+        const name = document.getElementById('playerName').value || 'Masinis';
+        
+        // Simpan konfigurasi ke localStorage
+        localStorage.setItem('playerName', name);
+        localStorage.setItem('selectedDaop', daopSelect.value);
+        localStorage.setItem('selectedLocomotive', locoSelect.value);
+        localStorage.setItem('isAdmin', isAdmin ? 'true' : 'false');
 
-        if (startStation === endStation) {
-            alert('⚠️ Stasiun asal dan stasiun tujuan tidak boleh sama!');
-            return;
-        }
-
-        const gameConfig = {
-            playerName: name,
-            locoType: loco,
-            carriageType: carriage,
-            startStation: startStation,
-            endStation: endStation,
-            isAdmin: isAdminVerified,
-            timestamp: Date.now()
-        };
-
-        localStorage.setItem('kaiGameConfig', JSON.stringify(gameConfig));
         window.location.href = 'game.html';
-    }
+    });
+
+    // Run check awal
+    checkKRLAvailability();
 </script>
 </body>
-  </html>
-          
+    </html>
+                
