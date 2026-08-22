@@ -2,103 +2,22 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lobby - Simulator Kereta Api Indonesia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lobby - Simulator Kereta Api Indonesia 2D</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .lobby-card {
-            background: #1e293b;
-            border: 2px solid #334155;
-            border-radius: 12px;
-            padding: 30px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-        h1 {
-            text-align: center;
-            font-size: 22px;
-            margin-bottom: 20px;
-            color: #38bdf8;
-            border-bottom: 2px solid #334155;
-            padding-bottom: 10px;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        label {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 6px;
-            color: #94a3b8;
-            font-weight: 600;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 6px;
-            border: 1px solid #475569;
-            background: #0f172a;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-        }
-        input:focus, select:focus {
-            border-color: #38bdf8;
-        }
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            background: #0284c7;
-            color: white;
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 10px;
-        }
-        .btn:hover {
-            background: #0369a1;
-        }
-        .admin-toggle {
-            background: transparent;
-            border: 1px dashed #64748b;
-            color: #cbd5e1;
-            font-size: 12px;
-            margin-top: 15px;
-        }
-        .admin-box {
-            display: none;
-            background: #0f172a;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #ef4444;
-            margin-top: 10px;
-        }
-        .badge-admin {
-            display: none;
-            background: #ef4444;
-            color: white;
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-left: 5px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; user-select: none; }
+        body { background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+        .lobby-card { background: #1e293b; border: 2px solid #334155; border-radius: 12px; padding: 20px; width: 100%; max-width: 480px; box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
+        h1 { text-align: center; font-size: 20px; color: #38bdf8; margin-bottom: 15px; border-bottom: 2px solid #334155; padding-bottom: 10px; }
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 12px; color: #94a3b8; font-weight: bold; margin-bottom: 4px; }
+        input, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 13px; outline: none; }
+        input:focus, select:focus { border-color: #38bdf8; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 6px; background: #0284c7; color: white; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s; margin-top: 8px; }
+        .btn:active { transform: scale(0.98); }
+        .admin-toggle { background: transparent; border: 1px dashed #64748b; color: #cbd5e1; font-size: 11px; }
+        .admin-box { display: none; background: #0f172a; padding: 10px; border-radius: 6px; border: 1px solid #ef4444; margin-top: 8px; }
+        .badge-admin { display: none; background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -107,42 +26,73 @@
     <h1>SIMULATOR KAI 2D <span id="adminBadge" class="badge-admin">ADMIN</span></h1>
 
     <div class="form-group">
-        <label for="playerName">Nama Masinis / Pemain:</label>
-        <input type="text" id="playerName" placeholder="Masukkan nama..." value="Masinis 1">
+        <label>NAMA MASINIS:</label>
+        <input type="text" id="playerName" value="Masinis 1" placeholder="Nama masinis...">
     </div>
 
     <div class="form-group">
-        <label for="daopSelect">Wilayah (DAOP):</label>
+        <label>DAERAH OPERASI (DAOP):</label>
         <select id="daopSelect">
             <option value="daop1">DAOP 1 Jakarta</option>
             <option value="daop2">DAOP 2 Bandung</option>
+            <option value="daop3">DAOP 3 Cirebon</option>
+            <option value="daop4">DAOP 4 Semarang</option>
+            <option value="daop5">DAOP 5 Purwokerto</option>
             <option value="daop6">DAOP 6 Yogyakarta</option>
             <option value="daop8">DAOP 8 Surabaya</option>
+            <option value="daop9">DAOP 9 Jember</option>
         </select>
     </div>
 
     <div class="form-group">
-        <label for="locoSelect">Pilih Lokomotif / Rangkaian:</label>
+        <label>STASIUN AWAL & TUJUAN:</label>
+        <div style="display: flex; gap: 8px;">
+            <select id="startStation"></select>
+            <select id="endStation"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>LOKOMOTIF / ARMADA:</label>
         <select id="locoSelect">
             <option value="CC206">CC206 (Double Cab Modern)</option>
-            <option value="CC203">CC203 (Aerodinamis)</option>
+            <option value="CC203">CC203 (Aerodinamis Miring)</option>
             <option value="CC201">CC201 (Hidung Kotak Classic)</option>
+            <option value="BB301">BB301 (Lokomotif Diesel Hidrolik)</option>
             <option value="KRL">KRL Commuter Line (Khusus Daop 1)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>TIPE GERBONG (6 RANGKAIAN):</label>
+        <select id="coachSelect">
+            <option value="K1">K1 Eksekutif</option>
+            <option value="K2">K2 Bisnis</option>
+            <option value="K3">K3 Ekonomi</option>
+            <option value="CARGO">Gerbong Cargo / Barang</option>
         </select>
     </div>
 
     <button type="button" class="btn admin-toggle" id="toggleAdminBtn">🔑 Login Akses Admin Server</button>
 
     <div class="admin-box" id="adminBox">
-        <label for="adminPass" style="color: #fca5a5;">Password Admin:</label>
-        <input type="password" id="adminPass" placeholder="Masukkan password admin...">
-        <button type="button" class="btn" style="background:#dc2626; margin-top:8px; padding:8px;" id="loginAdminBtn">Verifikasi Admin</button>
+        <label style="color: #fca5a5;">Password Admin Server:</label>
+        <input type="password" id="adminPass" placeholder="Default: AdminKAI2026!">
+        <button type="button" class="btn" style="background:#dc2626; padding:8px;" id="loginAdminBtn">Verifikasi Admin</button>
     </div>
 
-    <button type="button" class="btn" id="startBtn">MASUK KE GAME 🚂</button>
+    <button type="button" class="btn" id="startBtn" style="background: #16a34a; margin-top: 15px;">MASUK KE GAME 🚂</button>
 </div>
 
 <script>
+    const stationsList = [
+        "Gambir", "Pasar Senen", "Bandung", "Cirebon", "Semarang Tawang", "Purwokerto", 
+        "Yogyakarta", "Solo Balapan", "Madiun", "Surabaya Gubeng", "Surabaya Pasar Turi", 
+        "Malang", "Jember", "Banyuwangi", "Bogor", "Bekasi"
+    ];
+
+    const startSelect = document.getElementById('startStation');
+    const endSelect = document.getElementById('endStation');
     const daopSelect = document.getElementById('daopSelect');
     const locoSelect = document.getElementById('locoSelect');
     const toggleAdminBtn = document.getElementById('toggleAdminBtn');
@@ -154,32 +104,36 @@
 
     let isAdmin = false;
 
-    // Batasi KRL hanya untuk Daop 1 Jakarta
-    function checkKRLAvailability() {
-        const krlOption = locoSelect.querySelector('option[value="KRL"]');
+    // Populate 16 Stasiun
+    stationsList.forEach((st, idx) => {
+        startSelect.innerHTML += `<option value="${st}" ${idx===0?'selected':''}>Awal: ${st}</option>`;
+        endSelect.innerHTML += `<option value="${st}" ${idx===6?'selected':''}>Tujuan: ${st}</option>`;
+    });
+
+    // Validasi KRL hanya di Daop 1
+    function validateKRL() {
+        const krlOpt = locoSelect.querySelector('option[value="KRL"]');
         if (daopSelect.value !== 'daop1') {
-            krlOption.disabled = true;
+            krlOpt.disabled = true;
             if (locoSelect.value === 'KRL') {
                 locoSelect.value = 'CC206';
-                alert('KRL Commuter Line hanya tersedia untuk wilayah operasional DAOP 1 Jakarta!');
+                alert('KRL Commuter Line hanya diizinkan beroperasi di DAOP 1 Jakarta!');
             }
         } else {
-            krlOption.disabled = false;
+            krlOpt.disabled = false;
         }
     }
-
-    daopSelect.addEventListener('change', checkKRLAvailability);
+    daopSelect.addEventListener('change', validateKRL);
 
     toggleAdminBtn.addEventListener('click', () => {
         adminBox.style.display = adminBox.style.display === 'block' ? 'none' : 'block';
     });
 
     loginAdminBtn.addEventListener('click', () => {
-        // Password Admin default: admin123
-        if (adminPass.value === 'admin123') {
+        if (adminPass.value === 'AdminKAI2026!') {
             isAdmin = true;
             adminBadge.style.display = 'inline-block';
-            alert('Akses Admin Berhasil Diberikan! Anda dapat mengontrol wesel global secara paksa.');
+            alert('Berhasil Login Admin! Anda mendapat kontrol penuh Server & Wesel.');
             adminBox.style.display = 'none';
         } else {
             alert('Password Admin Salah!');
@@ -187,20 +141,24 @@
     });
 
     startBtn.addEventListener('click', () => {
-        const name = document.getElementById('playerName').value || 'Masinis';
-        
-        // Simpan konfigurasi ke localStorage
-        localStorage.setItem('playerName', name);
+        if (startSelect.value === endSelect.value) {
+            alert('Stasiun awal dan tujuan tidak boleh sama!');
+            return;
+        }
+
+        localStorage.setItem('playerName', document.getElementById('playerName').value || 'Masinis');
         localStorage.setItem('selectedDaop', daopSelect.value);
-        localStorage.setItem('selectedLocomotive', locoSelect.value);
+        localStorage.setItem('startStation', startSelect.value);
+        localStorage.setItem('endStation', endSelect.value);
+        localStorage.setItem('selectedLoco', locoSelect.value);
+        localStorage.setItem('selectedCoach', document.getElementById('coachSelect').value);
         localStorage.setItem('isAdmin', isAdmin ? 'true' : 'false');
 
         window.location.href = 'game.html';
     });
 
-    // Run check awal
-    checkKRLAvailability();
+    validateKRL();
 </script>
 </body>
     </html>
-                
+    
