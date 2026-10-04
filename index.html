@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Amazing Digital Fly Simulator</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #111; font-family: Arial, sans-serif; }
+        #info {
+            position: absolute; top: 10px; left: 10px; color: white;
+            background: rgba(0,0,0,0.6); padding: 10px; border-radius: 8px; font-size: 14px;
+        }
+        /* Kotak Iklan di pinggir layar */
+        #ad-box {
+            position: absolute; bottom: 10px; right: 10px; width: 300px; height: 100px;
+            background: #fff; border: 2px dashed #ff0055; display: flex; 
+            align-items: center; justify-content: center; text-align: center; font-weight: bold; color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="info">
+        <h3>The Amazing Digital Fly</h3>
+        <p>Otak Saraf SNN Aktif (Versi Web Ringan)</p>
+    </div>
+
+    <!-- KOTAK IKLAN (Tempat pasang script Adsterra / AdSense nanti) -->
+    <div id="ad-box">
+        [ Tempat Iklan Adsterra / AdSense ]<br><span style="font-size:10px; color:gray;">Iklan Monetisasi Web</span>
+    </div>
+
+    <!-- Load Three.js untuk Grafik 3D yang Ringan di Browser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        // 1. SETUP DUNIA 3D (The Amazing Digital Circus style)
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Lampu
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(5, 10, 7);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x404040));
+
+        // Buat Ruangan Sirkus (Kotak Dunia)
+        const roomGeo = new THREE.BoxGeometry(30, 15, 30);
+        const roomMat = new THREE.MeshBasicMaterial({ color: 0xffcc00, wireframe: true });
+        const room = new THREE.Mesh(roomGeo, roomMat);
+        scene.add(room);
+
+        // 2. BUAT TUBUH LALAT (Model 3D Sederhana / Kapsul Bersayap)
+        const flyGroup = new THREE.Group();
+        
+        const bodyGeo = new THREE.SphereGeometry(0.4, 16, 16);
+        const bodyMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
+        const flyBody = new THREE.Mesh(bodyGeo, bodyMat);
+        flyGroup.add(flyBody);
+
+        // Sayap Kiri & Kanan
+        const wingGeo = new THREE.BoxGeometry(0.8, 0.05, 0.3);
+        const wingMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.6 });
+        
+        const wingLeft = new THREE.Mesh(wingGeo, wingMat);
+        wingLeft.position.set(0.5, 0.2, 0);
+        flyGroup.add(wingLeft);
+
+        const wingRight = new THREE.Mesh(wingGeo, wingMat);
+        wingRight.position.set(-0.5, 0.2, 0);
+        flyGroup.add(wingRight);
+
+        scene.add(flyGroup);
+        flyGroup.position.set(0, 0, 0);
+
+        // 3. RUMUS OTAK SARAF (SNN Mini versi JavaScript - Menggantikan Python)
+        class MiniNeuron {
+            constructor(decay = 0.7, threshold = 2.5) {
+                this.voltage = 0.0;
+                this.decay = decay;
+                this.threshold = threshold;
+            }
+            update(input_current) {
+                this.voltage = (this.voltage * this.decay) + input_current;
+                if (this.voltage >= this.threshold) {
+                    this.voltage = 0.0;
+                    return 1.0; // Spike!
+                }
+                return 0.0;
+            }
+        }
+
+        const neuronKiri = new MiniNeuron();
+        const neuronKanan = new MiniNeuron();
+
+        let posX = 0, posY = 0, posZ = 0;
+        let rotY = 0;
+
+        // 4. LOOP UTAMA (ANIMASI & OTAK BERPUTAR)
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Simulasi "Mata" / Sensor Jarak Sederhana
+            let adaTembokKiri = (Math.abs(posX) > 12) ? 4.0 : 0.0;
+            let adaTembokKanan = (Math.abs(posX) > 12) ? 4.0 : 0.0;
+
+            // Insting Liar Lalat (Acak)
+            let instingKiri = Math.random() * 1.5;
+            let instingKanan = Math.random() * 1.5;
+
+            // Aliran Saraf SNN
+            let inputKiri = adaTembokKanan + instingKiri;
+            let inputKanan = adaTembokKiri + instingKanan;
+
+            let spikeKiri = neuronKiri.update(inputKiri);
+            let spikeKanan = neuronKanan.update(inputKanan);
+
+            // Gerak Berdasarkan Otak
+            let belok = spikeKiri - spikeKanan;
+            rotY += belok * 0.1;
+            
+            // Terbang maju otomatis + insting naik turun
+            posX -= Math.sin(rotY) * 0.15;
+            posZ -= Math.cos(rotY) * 0.15;
+            posY += (Math.random() - 0.5) * 0.2; // Terbang acak vertikal
+
+            // Batasi agar tetap di dalam ruangan sirkus
+            posX = Math.max(-13, Math.min(13, posX));
+            posZ = Math.max(-13, Math.min(13, posZ));
+            posY = Math.min(6, Math.max(-6, posY));
+
+            // Terapkan ke Model 3D Lalat
+            flyGroup.position.set(posX, posY, posZ);
+            flyGroup.rotation.y = rotY;
+
+            // Efek kepakkan sayap cepat
+            wingLeft.rotation.z = Math.sin(Date.now() * 0.05) * 0.5;
+            wingRight.rotation.z = -Math.sin(Date.now() * 0.05) * 0.5;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Responsive kalau layar tablet diputar
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+      </html>
+  
